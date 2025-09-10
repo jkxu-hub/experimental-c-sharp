@@ -1,4 +1,6 @@
+using CSharpWebApp.Controllers;
 using CSharpWebApp.Hubs;
+using Microsoft.AspNetCore.SignalR;
 namespace CSharpWebApp
 {
     public class Program
@@ -10,6 +12,9 @@ namespace CSharpWebApp
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddSignalR();
+            builder.Services.AddSingleton<ChatRegistry>();
+            builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
+
 
             var app = builder.Build();
 
@@ -35,6 +40,7 @@ namespace CSharpWebApp
             app.MapHub<ChatHub>("/chatHub");
             app.MapHub<CustomHub>("/custom");
             app.MapHub<GroupsHub>("/groups");
+            app.MapHub<AdvancedChatHub>("/advancedChat");
 
             app.Run();
         }
